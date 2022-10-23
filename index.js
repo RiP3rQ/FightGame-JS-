@@ -59,7 +59,23 @@ const player = new Fighter({
         run: {
             imageSrc: './assets/Martial Hero/Sprites/Run.png',
             framesMax: 8,
-        }
+        },
+        run: {
+            imageSrc: './assets/Martial Hero/Sprites/Run.png',
+            framesMax: 8,
+        },
+        jump: {
+            imageSrc: './assets/Martial Hero/Sprites/Jump.png',
+            framesMax: 2,
+        },
+        fall: {
+            imageSrc: './assets/Martial Hero/Sprites/Fall.png',
+            framesMax: 2,
+        },
+        attack1: {
+            imageSrc: './assets/Martial Hero/Sprites/Attack1.png',
+            framesMax: 6,
+        },
     }
 })
 player.draw()
@@ -118,13 +134,24 @@ function animate() {
     // poruszanie graczem
     player.velocity.x = 0
 
-    player.image = player.sprites.idle.image
+    
     if(keys.a.pressed && player.lastKey === 'a'){
         player.velocity.x = -3
-        player.image = player.sprites.run.image
+        player.switchSprite('run')
     }else if(keys.d.pressed && player.lastKey === 'd'){
         player.velocity.x = 3
-        player.image = player.sprites.run.image
+        player.switchSprite('run')
+    }else{
+        player.switchSprite('idle')
+    }
+
+    // skok animacja
+    if(player.velocity.y < 0){
+        player.switchSprite('jump')
+    }
+    // upadek animacja
+    if(player.velocity.y > 0){
+        player.switchSprite('fall')
     }
 
     // poruszanie przeciwnika
