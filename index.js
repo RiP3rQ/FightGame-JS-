@@ -10,67 +10,17 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 //grawitacja
 const gravity = 0.7
 
-//głowna funckja
-class Sprite {
-    constructor({position, velocity, color = 'red', offset}){
-       this.position = position
-       this.velocity = velocity
-       this.width = 50
-       this.height = 150
-       this.lastKey 
-       this.attackBox = {
-        position: {
-            x: this.position.x,
-            y: this.position.y,
-        },
-        offset,
-        width: 100,
-        height: 50, 
-       },
-       this.color = color
-       this.isAttacking
-       this.health = 100
-    }
-
-    draw(){
-        c.fillStyle = this.color
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
-
-        //attacks
-        if(this.isAttacking){
-            c.fillStyle = 'green'
-            c.fillRect(this.attackBox.position.x, this.attackBox.position.y,
-                 this.attackBox.width, this.attackBox.height)
-        }
-    }
-
-    update(){
-        this.draw()
-
-        // attackBox position
-        this.attackBox.position.x = this.position.x + this.attackBox.offset.x
-        this.attackBox.position.y = this.position.y
-        
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-
-        if(this.position.y + this.height + this.velocity.y >= canvas.height){
-            this.velocity.y = 0
-        }else{
-            this.velocity.y += gravity
-        }
-    }
-
-    attack(){
-        this.isAttacking = true
-        setTimeout( () => {
-            this.isAttacking = false
-        }, 100)
-    }
-}
+// background
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: 0,
+    },
+    imageSrc: './assets/background.png'
+})
 
 //pozycje gracza i przeciwnika
-const player = new Sprite({
+const player = new Fighter({
     position: {
         x: 0,
         y: 0,
@@ -86,7 +36,7 @@ const player = new Sprite({
 })
 player.draw()
 
-const enemy = new Sprite({
+const enemy = new Fighter({
     position: {
         x: 400,
         y: 100,
@@ -121,45 +71,6 @@ const keys = {
     },
 }
 
-// funkcja wykrywania kolizji
-function rectangularCollision({
-    rectangular1,
-    rectangular2,
-}){
-    return (rectangular1.attackBox.position.x + rectangular1.attackBox.width >= rectangular2.position.x
-        && rectangular1.attackBox.position.x <= rectangular2.position.x + rectangular2.width
-        && rectangular1.attackBox.position.y + rectangular1.attackBox.height >= rectangular2.position.y
-        && rectangular1.attackBox.position.y <= rectangular2.position.y + rectangular2.height)
-}
-
-// determin winner function
-function determineWinner({ player, enemy, timerId}){
-    clearTimeout(timerId)
-    document.querySelector('#displayText').style.display = 'flex'
-    if(player.health === enemy.health){
-        document.querySelector('#displayText').innerHTML = 'Tie'
-    }else if(player.health > enemy.health){
-        document.querySelector('#displayText').innerHTML = 'Player1 wins!'
-    }else{
-        document.querySelector('#displayText').innerHTML = 'Player2 wins!'
-    }
-}
-
-// timer
-let timer = 60
-let timerId
-function decreaseTimer(){
-    timerId = setTimeout(decreaseTimer, 1000)
-    if(timer > 0) {
-        timer--
-        document.querySelector('#timer').innerHTML = timer
-    }
-
-    if(timer == 0){
-        determineWinner({ player, enemy, timerId })
-    }
-    
-}
 decreaseTimer()
 
 //animacja gry
@@ -167,6 +78,9 @@ function animate() {
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
     c.fillRect(0,0, canvas.width, canvas.height)
+
+    background.update()
+
     player.update()
     enemy.update()
    
