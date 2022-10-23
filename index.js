@@ -43,6 +43,13 @@ const player = new Fighter({
     offset:{
         x: 0,
         y: 0,
+    },
+    imageSrc: './assets/Martial Hero/Sprites/Idle.png',
+    framesMax: 8,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 157,
     }
 })
 player.draw()
@@ -96,7 +103,7 @@ function animate() {
 
     // render players
     player.update()
-    enemy.update()
+    // enemy.update()
    
     // poruszanie graczem
     player.velocity.x = 0
