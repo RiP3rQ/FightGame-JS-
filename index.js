@@ -19,6 +19,17 @@ const background = new Sprite({
     imageSrc: './assets/background.png'
 })
 
+// shop
+const shop = new Sprite({
+    position: {
+        x: 620,
+        y: 130,
+    },
+    imageSrc: './assets/shop.png',
+    scale: 2.75,
+    framesMax: 6,
+})
+
 //pozycje gracza i przeciwnika
 const player = new Fighter({
     position: {
@@ -79,8 +90,11 @@ function animate() {
     c.fillStyle = 'black'
     c.fillRect(0,0, canvas.width, canvas.height)
 
+    // renter background sprites
     background.update()
+    shop.update()
 
+    // render players
     player.update()
     enemy.update()
    
