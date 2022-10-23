@@ -93,6 +93,39 @@ const enemy = new Fighter({
     offset:{
         x: -50,
         y: 0,
+    },
+    imageSrc: './assets/Martial Hero 2/Sprites/Idle.png',
+    framesMax: 4,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 167,
+    },
+    sprites:{
+        idle:{
+            imageSrc: './assets/Martial Hero 2/Sprites/Idle.png',
+            framesMax: 4,
+        },
+        run: {
+            imageSrc: './assets/Martial Hero 2/Sprites/Run.png',
+            framesMax: 8,
+        },
+        run: {
+            imageSrc: './assets/Martial Hero 2/Sprites/Run.png',
+            framesMax: 8,
+        },
+        jump: {
+            imageSrc: './assets/Martial Hero 2/Sprites/Jump.png',
+            framesMax: 2,
+        },
+        fall: {
+            imageSrc: './assets/Martial Hero 2/Sprites/Fall.png',
+            framesMax: 2,
+        },
+        attack1: {
+            imageSrc: './assets/Martial Hero 2/Sprites/Attack1.png',
+            framesMax: 4,
+        },
     }
 })
 enemy.draw()
@@ -129,7 +162,7 @@ function animate() {
 
     // render players
     player.update()
-    // enemy.update()
+    enemy.update()
    
     // poruszanie graczem
     player.velocity.x = 0
@@ -159,8 +192,21 @@ function animate() {
 
     if(keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft'){
         enemy.velocity.x = -3
+        enemy.switchSprite('run')
     }else if(keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight'){
         enemy.velocity.x = 3
+        enemy.switchSprite('run')
+    }else{
+        enemy.switchSprite('idle')
+    }
+
+    // skok animacja
+    if(enemy.velocity.y < 0){
+        enemy.switchSprite('jump')
+    }
+    // upadek animacja
+    if(enemy.velocity.y > 0){
+        enemy.switchSprite('fall')
     }
 
     // detect for colision for player
