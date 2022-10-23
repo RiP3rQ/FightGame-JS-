@@ -50,6 +50,16 @@ const player = new Fighter({
     offset: {
         x: 215,
         y: 157,
+    },
+    sprites:{
+        idle:{
+            imageSrc: './assets/Martial Hero/Sprites/Idle.png',
+            framesMax: 8,
+        },
+        run: {
+            imageSrc: './assets/Martial Hero/Sprites/Run.png',
+            framesMax: 8,
+        }
     }
 })
 player.draw()
@@ -108,10 +118,13 @@ function animate() {
     // poruszanie graczem
     player.velocity.x = 0
 
+    player.image = player.sprites.idle.image
     if(keys.a.pressed && player.lastKey === 'a'){
         player.velocity.x = -3
+        player.image = player.sprites.run.image
     }else if(keys.d.pressed && player.lastKey === 'd'){
         player.velocity.x = 3
+        player.image = player.sprites.run.image
     }
 
     // poruszanie przeciwnika
