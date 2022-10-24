@@ -76,6 +76,10 @@ const player = new Fighter({
             imageSrc: './assets/Martial Hero/Sprites/Attack1.png',
             framesMax: 6,
         },
+        takeHit:{
+            imageSrc: './assets/Martial Hero/Sprites/Take Hit - white silhouette.png',
+            framesMax: 4,
+        }
     },
     attackBox:{
         offset: {
@@ -134,6 +138,10 @@ const enemy = new Fighter({
             imageSrc: './assets/Martial Hero 2/Sprites/Attack1.png',
             framesMax: 4,
         },
+        takeHit:{
+            imageSrc: './assets/Martial Hero 2/Sprites/Take hit.png',
+            framesMax: 3,
+        }
     },
     attackBox:{
         offset: {
@@ -225,15 +233,15 @@ function animate() {
         enemy.switchSprite('fall')
     }
 
-    // detect for colision for player
+    // detect for colision for player && enemy gets hit
     if (rectangularCollision({
         rectangular1: player,
         rectangular2: enemy,
     })
      && player.isAttacking
      && player.frameCurrent === 4){
+        enemy.takeHit()
         player.isAttacking = false;
-        enemy.health -= 10
         document.querySelector('#enemyHealth').style.width = enemy.health + '%'
     }
 
@@ -242,15 +250,15 @@ function animate() {
         player.isAttacking = false
     }
 
-    // detect for colision for enemy
+    // detect for colision for enemy && player gets hit
     if (rectangularCollision({
         rectangular1: enemy,
         rectangular2: player,
     })
      && enemy.isAttacking
      && enemy.frameCurrent === 2){
+        player.takeHit()
         enemy.isAttacking = false;
-        player.health -= 10
         document.querySelector('#playerHealth').style.width = player.health + '%'
     }
 
