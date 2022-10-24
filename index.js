@@ -185,14 +185,16 @@ decreaseTimer()
 //animacja gry
 function animate() {
     window.requestAnimationFrame(animate)
+    
+    // renter background sprites
     c.fillStyle = 'black'
     c.fillRect(0,0, canvas.width, canvas.height)
-
-    // renter background sprites
     background.update()
     shop.update()
 
     // render players
+    c.fillStyle = 'rgba(255,255,255, .15)'
+    c.fillRect(0,0, canvas.width, canvas.height)
     player.update()
     enemy.update()
    
@@ -250,7 +252,12 @@ function animate() {
      && player.frameCurrent === 4){
         enemy.takeHit()
         player.isAttacking = false;
-        document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+        //document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+
+        //gsap animation of health bar
+        gsap.to('#enemyHealth', {
+            width: enemy.health + '%',
+        })
     }
 
     // if player misses
@@ -267,7 +274,12 @@ function animate() {
      && enemy.frameCurrent === 2){
         player.takeHit()
         enemy.isAttacking = false;
-        document.querySelector('#playerHealth').style.width = player.health + '%'
+        //document.querySelector('#playerHealth').style.width = player.health + '%'
+
+        //gsap animation of health bar
+        gsap.to('#playerHealth', {
+            width: player.health + '%',
+        })
     }
 
     // if enemy misses
