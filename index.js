@@ -76,6 +76,14 @@ const player = new Fighter({
             imageSrc: './assets/Martial Hero/Sprites/Attack1.png',
             framesMax: 6,
         },
+    },
+    attackBox:{
+        offset: {
+            x: 100,
+            y: 50,
+        },
+        width: 155,
+        height: 50,
     }
 })
 player.draw()
@@ -126,6 +134,14 @@ const enemy = new Fighter({
             imageSrc: './assets/Martial Hero 2/Sprites/Attack1.png',
             framesMax: 4,
         },
+    },
+    attackBox:{
+        offset: {
+            x: -170,
+            y: 50,
+        },
+        width: 170,
+        height: 50,
     }
 })
 enemy.draw()
@@ -214,10 +230,16 @@ function animate() {
         rectangular1: player,
         rectangular2: enemy,
     })
-     && player.isAttacking){
+     && player.isAttacking
+     && player.frameCurrent === 4){
         player.isAttacking = false;
         enemy.health -= 10
         document.querySelector('#enemyHealth').style.width = enemy.health + '%'
+    }
+
+    // if player misses
+    if(player.isAttacking && player.frameCurrent === 4){
+        player.isAttacking = false
     }
 
     // detect for colision for enemy
@@ -225,10 +247,16 @@ function animate() {
         rectangular1: enemy,
         rectangular2: player,
     })
-     && enemy.isAttacking){
+     && enemy.isAttacking
+     && enemy.frameCurrent === 2){
         enemy.isAttacking = false;
         player.health -= 10
         document.querySelector('#playerHealth').style.width = player.health + '%'
+    }
+
+    // if enemy misses
+    if(enemy.isAttacking && enemy.frameCurrent === 2){
+        enemy.isAttacking = false
     }
 
     // end game base on health
